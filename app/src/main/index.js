@@ -1,41 +1,41 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import {app, BrowserWindow} from 'electron'
 
-let mainWindow
+let mainWindow;
 const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:${require('../../../config').port}`
-  : `file://${__dirname}/index.html`
+    ? `http://localhost:${require('../../../config').port}`
+    : `file://${__dirname}/index.html`;
 
-function createWindow () {
-  /**
-   * Initial window options
-   */
-  mainWindow = new BrowserWindow({
-    height: 600,
-    width: 800
-  })
+function createWindow() {
+    /**
+     * Initial window options
+     */
+    mainWindow = new BrowserWindow({
+        height: 800,
+        width: 1000
+    });
 
-  mainWindow.loadURL(winURL)
+    mainWindow.loadURL(winURL);
 
-  mainWindow.on('closed', () => {
-    mainWindow = null
-  })
+    mainWindow.on('closed', () => {
+        mainWindow = null
+    });
 
-  // eslint-disable-next-line no-console
-  console.log('mainWindow opened')
+    // eslint-disable-next-line no-console
+    console.log('mainWindow opened')
 }
 
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
+});
 
 app.on('activate', () => {
-  if (mainWindow === null) {
-    createWindow()
-  }
-})
+    if (mainWindow === null) {
+        createWindow()
+    }
+});

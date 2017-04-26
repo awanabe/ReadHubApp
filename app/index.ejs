@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
-    <title>readhub_app</title>
+    <title>Readhub阅读器</title>
     <% if (htmlWebpackPlugin.options.appModules) { %>
-      <!-- Add `app/node_modules` to global paths so `require` works properly in development -->
-      <script>
+    <!-- Add `app/node_modules` to global paths so `require` works properly in development -->
+    <script>
         require('module').globalPaths.push('<%= htmlWebpackPlugin.options.appModules.replace(/\\/g, '\\\\') %>')
-      </script>
+    </script>
     <% } %>
-  </head>
-  <body>
-    <div id="app"></div>
-    <!-- webpack builds are automatically injected -->
-  </body>
+    <style>
+        * {
+            font-family: "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+<!-- webpack builds are automatically injected -->
+</body>
 </html>
