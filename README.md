@@ -1,24 +1,29 @@
-# readhub_app
+# readhubapp
 
-> An electron-vue project
+> My amazing app
 
-## Build Setup
 
-``` bash
-# install dependencies
-ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/" npm install
+## Dev
 
-# serve with hot reload at localhost:9080
-npm run dev
-
-# build electron app for production
-npm run build
-
-# run webpack in production
-npm run pack
 ```
-More information can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/en/npm_scripts.html).
+$ ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/" npm install
+```
 
----
+### Run
 
-This project was generated from [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about this project can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+```
+$ npm start
+```
+
+### Build
+
+```
+$ npm run build
+```
+
+Builds the app for macOS, Linux, and Windows, using [electron-packager](https://github.com/electron-userland/electron-packager).
+
+
+## License
+
+MIT © [awanabe](http://readhub.me)
