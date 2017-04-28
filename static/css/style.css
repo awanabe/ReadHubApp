@@ -21,7 +21,6 @@ body {
   display: flex;
   font-family: Lato, Helvetica, sans-serif;
   justify-content: center;
-  text-align: center;
   -webkit-font-smoothing: antialiased;
   font-size: 16px; }
 
@@ -33,8 +32,15 @@ p {
   margin: 0;
   padding: 0; }
 
+.text-center {
+  text-align: center; }
+
 .hint {
   font-size: 12px;
   color: #bbb; }
+
+.pane.pane-fix {
+  flex: none;
+  width: 400px; }
 
 /*# sourceMappingURL=style.css.map */

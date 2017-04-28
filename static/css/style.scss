@@ -27,7 +27,6 @@ body {
     display: flex;
     font-family: Lato, Helvetica, sans-serif;
     justify-content: center;
-    text-align: center;
     -webkit-font-smoothing: antialiased;
     font-size: 16px;
 }
@@ -42,7 +41,17 @@ p {
     padding: 0;
 }
 
+.text-center {
+    text-align: center;
+}
+
 .hint {
     font-size: 12px;
     color: #bbb;
+}
+
+// 业务CSS
+.pane.pane-fix {
+    flex: none;
+    width: 400px;
 }

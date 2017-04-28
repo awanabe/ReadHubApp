@@ -19,11 +19,15 @@ function onClosed() {
 
 function createMainWindow() {
     const win = new electron.BrowserWindow({
-        width: 800,
-        height: 600
+        width: 1200,
+        height: 800,
+        'minWidth': 500,
+        'minHeight': 200,
+        'acceptFirstMouse': true,
+        'titleBarStyle': 'hidden'
     });
 
-    win.loadURL(`file://${__dirname}/index.html`);
+    win.loadURL('file://' + __dirname + '/pages/index.html');
     win.on('closed', onClosed);
 
     if (debug) {
