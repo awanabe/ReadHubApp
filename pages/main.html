@@ -10,7 +10,7 @@
 <div class="window">
     <!-- .toolbar-header sits at the top of your app -->
     <header class="toolbar toolbar-header">
-        <h1 class="title">Readhub阅读器</h1>
+        <!--<h1 class="title">Readhub阅读器</h1>-->
         <div class="toolbar-actions">
             <div class="btn-group">
                 <button class="btn btn-default btn-nav" data-post-type="1" id="btn_nav_topic">
@@ -34,12 +34,7 @@
         <div class="pane-group">
             <div class="pane pane-fix sidebar">
                 <ul class="items">
-                    <li data-id="" class="list-group-item">
-                        <div class="media-body">
-                            <strong>List item title</strong>
-                            <p>Lorem ipsum dolor sit amet.</p>
-                        </div>
-                    </li>
+
                 </ul>
             </div>
             <div class="pane"></div>
@@ -48,6 +43,18 @@
 </div>
 <script type="application/javascript">
     require('../static/js/main')
+</script>
+
+<script type="text/html" id="topic_template">
+    <li data-id="" class="list-group-item">
+        <div class="media-body">
+            <p class="title"></p>
+            <p class="summary"></p>
+            <ul class="sources">
+                <li data-url=""><span class="filter">></span> <span class="l-title"></span><span class="l-source"></span></li>
+            </ul>
+        </div>
+    </li>
 </script>
 </body>
 </html>

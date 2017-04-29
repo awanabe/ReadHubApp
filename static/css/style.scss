@@ -1,3 +1,5 @@
+$hint-color: #bbb;
+
 * {
     font-family: "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     margin: 0;
@@ -47,7 +49,7 @@ p {
 
 .hint {
     font-size: 12px;
-    color: #bbb;
+    color: $hint-color;
 }
 
 // 业务CSS
@@ -55,3 +57,35 @@ p {
     flex: none;
     width: 400px;
 }
+
+.items {
+    list-style: none;
+    text-align: left;
+
+   > li {
+        border-bottom: 1px #ddd solid;
+
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: left;
+            line-height: 20px;
+            margin-bottom: 10px;
+        }
+
+        .summary {
+            font-size: 12px;
+            color: #999;
+            line-height: 16px;
+            margin-bottom: 10px;
+        }
+
+       .sources {
+           >li:hover {
+               text-decoration: underline;
+               cursor: pointer;
+           }
+       }
+    }
+}
+

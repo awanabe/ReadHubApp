@@ -9,9 +9,17 @@ function local_topic_last_id() {
     return localStorage.getItem('topic_last_id');
 }
 
+function set_local_topic_last_id(last_id) {
+    localStorage.setItem('topic_last_id', last_id);
+}
+
 // 热门文章的总数
 function local_topic_total_count() {
     return localStorage.getItem('topic_total_count');
+}
+
+function set_local_topic_total_count(total_count) {
+    localStorage.setItem('topic_total_count', total_count);
 }
 
 // 最新文章的最新的ID
@@ -19,9 +27,17 @@ function local_news_last_id() {
     return localStorage.getItem('news_last_id')
 }
 
+function set_local_news_last_id(last_id) {
+    localStorage.setItem('news_last_id', last_id)
+}
+
 // 最新文章的总数
 function local_news_total_count() {
     return localStorage.getItem('news_total_count')
+}
+
+function set_local_news_total_count(total_count) {
+    localStorage.setItem('news_total_count', total_count)
 }
 
 function clear_nav_btn_active() {
@@ -30,8 +46,33 @@ function clear_nav_btn_active() {
     });
 }
 
+function request_topics(last_cursor) {
+    let total_size;
+    if (last_cursor === null) {
+        request('https://api.readhub.me/topic?pageSize=' + PageSize, function (error, response, body) {
+            if (error !== null || response.statusCode !== 200) {
+                alert('获取数据失败');
+                return false;
+            }
+            let result = JSON.parse(body);
+            total_size = result.totalItems;
+
+            Array.prototype.forEach.call(result.data, function (item) {
+                console.log(item);
+            });
+        });
+    }else{
+
+    }
+
+    // 设置话题总数
+    set_local_topic_total_count(total_size);
+}
+
 const TOPIC = 1;
 const NEWS = 2;
+
+const PageSize = 10;
 
 function build_first_data(post_type) {
     switch (post_type) {
@@ -47,7 +88,7 @@ function build_first_data(post_type) {
     }
 
     if (local_topic_last_id() === null) {
-
+        request_topics(null)
     } else {
 
     }
