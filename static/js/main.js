@@ -1,7 +1,6 @@
 /**
  * Created by awanabe on 2017/4/27.
  */
-
 const request = require('request');
 
 // 热门文章的最新的ID
@@ -46,6 +45,16 @@ function clear_nav_btn_active() {
     });
 }
 
+//     <li data-id="" class="list-group-item">
+//          <div class="media-body">
+//              <p class="title"></p>
+//              <p class="summary"></p>
+//              <ul class="sources">
+//                  <li data-url=""><span class="filter">></span> <span class="l-title"></span><span class="l-source"></span></li>
+//              </ul>
+//          </div>
+//     </li>
+
 function request_topics(last_cursor) {
     let total_size;
     if (last_cursor === null) {
@@ -57,11 +66,59 @@ function request_topics(last_cursor) {
             let result = JSON.parse(body);
             total_size = result.totalItems;
 
+            let topic_items = document.getElementById('topic_items');
+            topic_items.innerHTML = '';
+
             Array.prototype.forEach.call(result.data, function (item) {
-                console.log(item);
+                let new_item = document.createElement('li');
+                new_item.classList.add('list-group-item');
+                new_item.dataset.id = item.id;
+
+                let content = document.createElement('div');
+                content.classList.add('media-body');
+
+                let title = document.createElement('p');
+                title.classList.add('title');
+                title.innerHTML = item.title;
+                content.appendChild(title);
+
+                if (item.summary !== "") {
+                    let summary = document.createElement('p');
+                    summary.classList.add('summary');
+                    summary.innerHTML = item.summary;
+                    content.appendChild(summary);
+                }
+
+                let sources = document.createElement('ul');
+                sources.classList.add('sources');
+
+                Array.prototype.forEach.call(item.newsArray, function (src) {
+                    let src_li = document.createElement('li');
+                    src_li.dataset.url = src.url;
+
+                    let filter_span = document.createElement('span');
+                    filter_span.classList.add('filter');
+                    filter_span.innerHTML = '>';
+
+                    let src_title = document.createElement('span');
+                    src_title.classList.add('l-title');
+                    src_title.innerHTML = src.title;
+
+                    let src_media = document.createElement('span');
+                    src_media.classList.add('l-source');
+                    src_media.innerHTML = ' - ' + src.siteName;
+
+                    src_li.innerHTML = filter_span.outerHTML + src_title.outerHTML + src_media.outerHTML;
+
+                    sources.appendChild(src_li);
+                });
+                content.appendChild(sources);
+
+                new_item.appendChild(content);
+                topic_items.appendChild(new_item);
             });
         });
-    }else{
+    } else {
 
     }
 

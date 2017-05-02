@@ -46,21 +46,31 @@ p {
 .items {
   list-style: none;
   text-align: left; }
-  .items > li {
-    border-bottom: 1px #ddd solid; }
-    .items > li .title {
-      font-size: 16px;
-      font-weight: bold;
-      text-align: left;
-      line-height: 20px;
-      margin-bottom: 10px; }
-    .items > li .summary {
-      font-size: 12px;
-      color: #999;
-      line-height: 16px;
-      margin-bottom: 10px; }
-    .items > li .sources > li:hover {
-      text-decoration: underline;
+  .items > li .title {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    line-height: 20px;
+    margin-bottom: 10px; }
+  .items > li .summary {
+    font-size: 12px;
+    color: #999;
+    line-height: 16px;
+    margin-bottom: 10px; }
+  .items > li .sources li {
+    display: block;
+    cursor: pointer;
+    font-size: 10px; }
+    .items > li .sources li > span {
       cursor: pointer; }
+    .items > li .sources li .filter {
+      margin-right: 10px;
+      color: #2aa7f0; }
+    .items > li .sources li .l-source {
+      color: #bbb; }
+  .items > li .sources > li:hover .l-title {
+    text-decoration: underline; }
+  .items > li .sources > li:hover .l-source {
+    text-decoration: underline; }
 
 /*# sourceMappingURL=style.css.map */

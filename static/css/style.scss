@@ -62,8 +62,7 @@ p {
     list-style: none;
     text-align: left;
 
-   > li {
-        border-bottom: 1px #ddd solid;
+    > li {
 
         .title {
             font-size: 16px;
@@ -80,12 +79,37 @@ p {
             margin-bottom: 10px;
         }
 
-       .sources {
-           >li:hover {
-               text-decoration: underline;
-               cursor: pointer;
-           }
-       }
+        .sources {
+            li {
+                display: block;
+                cursor: pointer;
+                font-size: 10px;
+
+                > span {
+                    cursor: pointer;
+                }
+
+                .filter {
+                    margin-right: 10px;
+                    color: #2aa7f0;
+                }
+
+                .l-source {
+                    color: $hint-color;
+                }
+            }
+            > li:hover {
+
+                .l-title {
+                    text-decoration: underline;
+                }
+
+                .l-source {
+                    text-decoration: underline;
+                }
+
+            }
+        }
     }
 }
 
