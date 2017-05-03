@@ -55,6 +55,10 @@ p {
   overflow-y: scroll; }
   .items .src-link {
     cursor: pointer; }
+  .items .load-more {
+    text-align: center;
+    padding: 20px 0;
+    cursor: pointer; }
   .items > li .title {
     font-size: 16px;
     font-weight: bold;
