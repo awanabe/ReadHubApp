@@ -45,6 +45,12 @@ function clear_nav_btn_active() {
     });
 }
 
+function hidden_list() {
+    Array.prototype.forEach.call(document.querySelectorAll('.items'), function (btn) {
+        btn.classList.add('hidden');
+    });
+}
+
 //     <li data-id="" class="list-group-item">
 //          <div class="media-body">
 //              <p class="title"></p>
@@ -56,7 +62,6 @@ function clear_nav_btn_active() {
 //     </li>
 
 function request_topics(last_cursor) {
-    let total_size;
     if (last_cursor === null) {
         request('https://api.readhub.me/topic?pageSize=' + PageSize, function (error, response, body) {
             if (error !== null || response.statusCode !== 200) {
@@ -64,7 +69,9 @@ function request_topics(last_cursor) {
                 return false;
             }
             let result = JSON.parse(body);
-            total_size = result.totalItems;
+            let total_size = result.totalItems;
+            // 设置话题总数
+            set_local_topic_total_count(total_size);
 
             let topic_items = document.getElementById('topic_items');
             topic_items.innerHTML = '';
@@ -95,6 +102,7 @@ function request_topics(last_cursor) {
                 Array.prototype.forEach.call(item.newsArray, function (src) {
                     let src_li = document.createElement('li');
                     src_li.dataset.url = src.url;
+                    src_li.classList.add('src-link');
 
                     let filter_span = document.createElement('span');
                     filter_span.classList.add('filter');
@@ -122,40 +130,115 @@ function request_topics(last_cursor) {
 
     }
 
-    // 设置话题总数
-    set_local_topic_total_count(total_size);
+
+}
+
+function request_news(last_cursor) {
+    if (last_cursor === null) {
+        request('https://api.readhub.me/news?pageSize=' + PageSize, function (error, response, body) {
+            if (error !== null || response.statusCode !== 200) {
+                alert('获取数据失败');
+                return false;
+            }
+            let result = JSON.parse(body);
+            let total_size = result.totalItems;
+            // 设置新闻总数
+            set_local_news_total_count(total_size);
+
+            let news_items = document.getElementById('news_items');
+            news_items.innerHTML = '';
+
+            Array.prototype.forEach.call(result.data, function (item) {
+                let new_item = document.createElement('li');
+                new_item.classList.add('list-group-item');
+                new_item.dataset.id = item.id;
+
+                let content = document.createElement('div');
+                content.classList.add('media-body');
+
+                let title = document.createElement('p');
+                title.classList.add('title');
+                title.classList.add('src-link');
+                title.innerHTML = item.title;
+                title.dataset.url = item.url;
+                content.appendChild(title);
+
+                if (item.summary !== "") {
+                    let summary = document.createElement('p');
+                    summary.classList.add('summary');
+                    summary.innerHTML = item.summary;
+                    content.appendChild(summary);
+                }
+
+                let source = document.createElement('p');
+                source.classList.add('source');
+                source.innerHTML = item.siteName + ' / ' + item.authorName;
+
+                content.appendChild(source);
+
+                new_item.appendChild(content);
+                news_items.appendChild(new_item);
+            });
+
+        })
+    } else {
+    }
+
 }
 
 const TOPIC = 1;
 const NEWS = 2;
 
-const PageSize = 10;
+const PageSize = 20;
 
 function build_first_data(post_type) {
+    // 清理导航状态
+    clear_nav_btn_active();
+    // 隐藏所有列表
+    hidden_list();
     switch (post_type) {
         case TOPIC:
-            clear_nav_btn_active();
+            document.getElementById('topic_items').classList.remove('hidden');
             document.getElementById('btn_nav_topic').classList.add('active');
-
             break;
         case NEWS:
-            clear_nav_btn_active();
+            document.getElementById('news_items').classList.remove('hidden');
             document.getElementById('btn_nav_news').classList.add('active');
             break;
     }
 
     if (local_topic_last_id() === null) {
-        request_topics(null)
+        request_topics(null);
     } else {
 
     }
 
     if (local_news_last_id() === null) {
-
+        request_news(null);
     } else {
 
     }
 }
+
+// src-link 点击之后的时间
+document.body.addEventListener("click", function (e) {
+    let link_el = null;
+    if (e.target.classList.contains('src-link')) {
+        link_el = e.target;
+    }
+
+    if (e.target.parentNode.classList.contains('src-link')) {
+        link_el = e.target.parentNode;
+    }
+
+    if (link_el === null) {
+        return false;
+    }
+
+    let url = link_el.dataset.url;
+    console.log(url);
+});
+
 
 function init_app() {
     // 初始化数据
@@ -164,7 +247,7 @@ function init_app() {
     Array.prototype.forEach.call(document.querySelectorAll('.btn-nav'), function (btn) {
         btn.addEventListener('click', function (event) {
             let post_type = parseInt(event.target.dataset.postType);
-            build_first_data(post_type)
+            build_first_data(post_type);
         });
     });
 }

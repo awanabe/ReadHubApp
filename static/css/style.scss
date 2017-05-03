@@ -52,6 +52,10 @@ p {
     color: $hint-color;
 }
 
+.hidden {
+    display: none;
+}
+
 // 业务CSS
 .pane.pane-fix {
     flex: none;
@@ -61,6 +65,10 @@ p {
 .items {
     list-style: none;
     text-align: left;
+
+    .src-link {
+        cursor: pointer;
+    }
 
     > li {
 
@@ -77,6 +85,11 @@ p {
             color: #999;
             line-height: 16px;
             margin-bottom: 10px;
+        }
+
+        .source {
+            font-size: 10px;
+            color: $hint-color;
         }
 
         .sources {
