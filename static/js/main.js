@@ -2,6 +2,7 @@
  * Created by awanabe on 2017/4/27.
  */
 const request = require('request');
+const shell = require("electron").shell;
 
 // 热门文章的最新的ID
 function local_topic_last_id() {
@@ -101,7 +102,7 @@ function request_topics(last_cursor) {
 
                 Array.prototype.forEach.call(item.newsArray, function (src) {
                     let src_li = document.createElement('li');
-                    src_li.dataset.url = src.url;
+                    src_li.dataset.url = src.mobileUrl;
                     src_li.classList.add('src-link');
 
                     let filter_span = document.createElement('span');
@@ -160,7 +161,7 @@ function request_news(last_cursor) {
                 title.classList.add('title');
                 title.classList.add('src-link');
                 title.innerHTML = item.title;
-                title.dataset.url = item.url;
+                title.dataset.url = item.mobileUrl;
                 content.appendChild(title);
 
                 if (item.summary !== "") {
@@ -236,7 +237,30 @@ document.body.addEventListener("click", function (e) {
     }
 
     let url = link_el.dataset.url;
-    console.log(url);
+
+    let ifrm = document.createElement('iframe');
+    ifrm.setAttribute('src', url);
+    ifrm.setAttribute('sandbox', 'allow-scripts');
+
+    let container = document.getElementById('ifrm_container');
+    container.innerHTML = '';
+    container.appendChild(ifrm);
+});
+
+// 在浏览器中打开
+document.getElementById('btn_open_in_b').addEventListener('click', function (event) {
+    let ifrm = document.getElementById('ifrm_container');
+    if(ifrm.getElementsByTagName('iframe').length > 0){
+        url = ifrm.getElementsByTagName('iframe')[0].src;
+        shell.openExternal(url);
+    }
+});
+
+// load more data
+Array.prototype.forEach.call(document.getElementsByClassName('items'), function (el) {
+    el.addEventListener('scroll', function () {
+        console.log(window.scrollY);
+    })
 });
 
 

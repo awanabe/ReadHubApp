@@ -9,7 +9,8 @@ $hint-color: #bbb;
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     border: none;
-    -webkit-user-select: text;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
     outline: none;
 }
 
@@ -59,12 +60,15 @@ p {
 // 业务CSS
 .pane.pane-fix {
     flex: none;
-    width: 400px;
+    width: 500px;
 }
 
 .items {
     list-style: none;
     text-align: left;
+    height: 100%;
+    position: relative;
+    overflow-y: scroll;
 
     .src-link {
         cursor: pointer;
@@ -126,3 +130,34 @@ p {
     }
 }
 
+.pane {
+    .container {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        background: radial-gradient(ellipse at center, white 0%, rgba(229, 229, 229, 0.85) 100%);
+        background-position: center;
+        text-align: center;
+        position: absolute;
+
+        .intro {
+            font-size: 36px;
+            padding-top: 40%;
+            color: $hint-color;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow-y: scroll;
+            overflow-x: scroll;
+            background-color: #fff;
+        }
+    }
+}
+
+.pane.sidebar{
+    background-color: #f9f9f9;
+}

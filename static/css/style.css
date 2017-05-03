@@ -7,7 +7,8 @@
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   border: none;
-  -webkit-user-select: text;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
   outline: none; }
 
 html,
@@ -44,11 +45,14 @@ p {
 
 .pane.pane-fix {
   flex: none;
-  width: 400px; }
+  width: 500px; }
 
 .items {
   list-style: none;
-  text-align: left; }
+  text-align: left;
+  height: 100%;
+  position: relative;
+  overflow-y: scroll; }
   .items .src-link {
     cursor: pointer; }
   .items > li .title {
@@ -80,5 +84,29 @@ p {
     text-decoration: underline; }
   .items > li .sources > li:hover .l-source {
     text-decoration: underline; }
+
+.pane .container {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: radial-gradient(ellipse at center, white 0%, rgba(229, 229, 229, 0.85) 100%);
+  background-position: center;
+  text-align: center;
+  position: absolute; }
+  .pane .container .intro {
+    font-size: 36px;
+    padding-top: 40%;
+    color: #bbb; }
+  .pane .container iframe {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    background-color: #fff; }
+
+.pane.sidebar {
+  background-color: #f9f9f9; }
 
 /*# sourceMappingURL=style.css.map */
