@@ -5,22 +5,12 @@ const request = require('request');
 const shell = require("electron").shell;
 
 // 热门文章的总数
-function local_topic_total_count() {
-    return localStorage.getItem('topic_total_count');
+function local_topic_max_order() {
+    return localStorage.getItem('topic_max_order');
 }
 
-function set_local_topic_total_count(total_count) {
-    localStorage.setItem('topic_total_count', total_count);
-}
-
-
-// 最新文章的总数
-function local_news_total_count() {
-    return localStorage.getItem('news_total_count')
-}
-
-function set_local_news_total_count(total_count) {
-    localStorage.setItem('news_total_count', total_count)
+function set_local_topic_max_order(max_order) {
+    localStorage.setItem('topic_max_order', max_order);
 }
 
 function clear_nav_btn_active() {
@@ -135,10 +125,6 @@ function request_topics(last_cursor) {
                 return false;
             }
             let result = JSON.parse(body);
-            let total_size = result.totalItems;
-            // 第一次获取数据，设置话题总数，一遍定时程序判断新数据
-            set_local_topic_total_count(total_size);
-
             let topic_items = document.getElementById('topic_items');
             topic_items.innerHTML = '';
 
@@ -150,6 +136,16 @@ function request_topics(last_cursor) {
                 topic_items.appendChild(new_item);
                 // 获取最后一个item的order，作为请求更多的lastCursor
                 order = item.order;
+
+                // 获取最新数据的order
+                let max_order = local_topic_max_order();
+                if (max_order === null) {
+                    set_local_topic_max_order(order);
+                } else {
+                    if (parseInt(max_order) < parseInt(order)) {
+                        set_local_topic_max_order(order);
+                    }
+                }
             });
 
             // 构建加载更多
@@ -198,10 +194,6 @@ function request_news(last_cursor) {
                 return false;
             }
             let result = JSON.parse(body);
-            let total_size = result.totalItems;
-            // 设置新闻总数
-            set_local_news_total_count(total_size);
-
             let news_items = document.getElementById('news_items');
             news_items.innerHTML = '';
 
@@ -254,6 +246,7 @@ const NEWS = 2;
 const PageSize = 20;
 
 function build_first_data(post_type) {
+    console.log('>>> starting build');
     // 清理导航状态
     clear_nav_btn_active();
     // 隐藏所有列表
@@ -271,6 +264,7 @@ function build_first_data(post_type) {
 
     request_topics(null);
     request_news(null);
+    console.log('>>> finished build');
 }
 
 // src-link 点击之后的时间
@@ -324,6 +318,12 @@ document.body.addEventListener("click", function (e) {
     }
 });
 
+document.getElementById('btn_refresh').addEventListener('click', function () {
+    build_first_data(TOPIC);
+    document.getElementById('topic_items').scrollTop = 0;
+    document.getElementById('new_count').innerHTML = '';
+});
+
 
 function init_app() {
     // 初始化数据
@@ -335,5 +335,19 @@ function init_app() {
             build_first_data(post_type);
         });
     });
+    // 定时程序判断是否有新的数据
+    setInterval(function () {
+        let max_order = local_topic_max_order();
+        request('https://api.readhub.me/topic/newCount?latestCursor=' + max_order, function (error, response, body) {
+            if (error !== null || response.statusCode !== 200) {
+                return false;
+            }
+            let result = JSON.parse(body);
+            let new_count = result.count;
+            if (parseInt(new_count) > 0) {
+                document.getElementById('new_count').innerHTML = '(' + new_count + ')';
+            }
+        })
+    }, 1000 * 60);
 }
 init_app();
