@@ -3,6 +3,8 @@
  */
 const request = require('request');
 const shell = require("electron").shell;
+const BrowserWindow = require('electron').remote.BrowserWindow;
+const path = require('path');
 
 // 热门文章的总数
 function local_topic_max_order() {
@@ -23,6 +25,17 @@ function hidden_list() {
     Array.prototype.forEach.call(document.querySelectorAll('.items'), function (btn) {
         btn.classList.add('hidden');
     });
+}
+
+function find_parent_node_by_klass(node, klass_name) {
+    let p_node = node;
+    while (p_node !== document.documentElement) {
+        if (p_node.classList.contains(klass_name)) {
+            return p_node
+        }
+        p_node = p_node.parentNode;
+    }
+    return null;
 }
 
 //     <li data-id="" class="list-group-item">
@@ -291,6 +304,15 @@ document.body.addEventListener("click", function (e) {
     let container = document.getElementById('ifrm_container');
     container.innerHTML = '';
     container.appendChild(ifrm);
+
+    // 背景色为深色
+    Array.prototype.forEach.call(document.querySelectorAll('.list-group-item'), function (el) {
+        el.classList.remove('chosen');
+    });
+    let parent_li_block = find_parent_node_by_klass(link_el, 'list-group-item');
+    if (parent_li_block !== null) {
+        parent_li_block.classList.add('chosen');
+    }
 });
 
 // 在浏览器中打开
@@ -322,8 +344,20 @@ document.getElementById('btn_refresh').addEventListener('click', function () {
     build_first_data(TOPIC);
     document.getElementById('topic_items').scrollTop = 0;
     document.getElementById('new_count').innerHTML = '';
+    let refresh_tip = document.getElementById('refresh_tip');
+    refresh_tip.classList.remove('hidden');
+    setTimeout(function () {
+        refresh_tip.classList.add('hidden');
+    }, 800)
 });
 
+document.getElementById('btn_buy_me_a_coffee').addEventListener('click', function () {
+    let win = new BrowserWindow({ width: 500, height: 400, title: 'Buy Me a Coffee',resizable: false });
+    win.on('close', function () { win = null });
+    const modalPath = path.join('file://', __dirname, '../../pages/modal.html');
+    win.loadURL(modalPath);
+    win.show();
+});
 
 function init_app() {
     // 初始化数据

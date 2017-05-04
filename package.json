@@ -1,8 +1,8 @@
 {
   "name": "readhubapp",
   "productName": "Readhubapp",
-  "version": "0.0.0",
-  "description": "My amazing app",
+  "version": "1.0.0",
+  "description": "ReadhubApp for readhub.me",
   "license": "MIT",
   "repository": "awanabe/readhubapp",
   "author": {

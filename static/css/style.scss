@@ -134,6 +134,10 @@ p {
             }
         }
     }
+
+    > li.chosen {
+        background-color: #E5EFF4;
+    }
 }
 
 .pane {
@@ -164,6 +168,23 @@ p {
     }
 }
 
-.pane.sidebar{
+.pane.sidebar {
     background-color: #f9f9f9;
+}
+
+.tips-global {
+    position: absolute;
+    top: 40px;
+    width: 200px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    text-align: center;
+    background-color: #1BA1E2;
+    color: #fff;
+    font-size: 14px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    padding: 3px 0;
+    border-radius: 2px;
 }
